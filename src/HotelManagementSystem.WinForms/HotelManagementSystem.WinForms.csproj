@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Forms\\MainMenuForm.cs" />
+    <Compile Include="Forms\\GuestsForm.cs" />
+    <Compile Include="Forms\\RoomsForm.cs" />
+    <Compile Include="Forms\\BookingsForm.cs" />
+    <Compile Include="Forms\\ServicesStaffForm.cs" />
+    <Compile Include="Data\\Db.cs" />
+    <Compile Include="Utils\\Validation.cs" />
+  </ItemGroup>
+</Project>

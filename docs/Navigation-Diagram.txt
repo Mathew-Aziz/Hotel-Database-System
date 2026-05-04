@@ -1,0 +1,8 @@
+Placeholder for navigation diagram. Replace this file with an image (PNG) or a draw.io file.
+
+Suggested diagram:
+MainMenu -> Guests
+MainMenu -> Rooms
+MainMenu -> Bookings
+MainMenu -> ServicesStaff
+Each child form -> MainMenu
