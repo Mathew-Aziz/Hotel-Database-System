@@ -155,7 +155,70 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnDelete_Click(object sender, EventArgs e) { }
+    private void BtnDelete_Click(object sender, EventArgs e) {
+        int guestId = GetSelectedGuestId();
+        if(guestId == -1)
+        {
+            MessageBox.Show("Please select a guest to update.", "No Selection",
+                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        if (!ValidateInputs())
+            return;
+
+
+        string query = @"Update Guest 
+                            SET first_name = @first_name, 
+                            last_name = @last_name, 
+                            phone = @phone, 
+                            national_id = @national_id 
+                            WHERE guest_id = @guest_id";
+
+
+        SqlParameter[] parameters =
+        {
+            new SqlParameter("@first_name", txtFirstName.Text.Trim()),
+            new SqlParameter("@last_name", txtLastName.Text.Trim()),
+            new SqlParameter("@phone", txtPhone.Text.Trim()),
+            new SqlParameter("@national_id", txtNationalId.Text.Trim())
+        };
+
+
+        try
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddRange(parameters);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if(rowsAffected > 0)
+                {
+                    MessageBox.Show("Guest updated successfully!", "Success",
+                           MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadGuests();  // Refresh the grid
+                    ClearTextBoxes();
+                }
+
+            }
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 2627)
+            {
+                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error adding guest: {ex.Message}", "Database Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
+    }
     private void BtnUpdate_Click(object sender, EventArgs e) { }
 
     private void BtnBack_Click(object sender, EventArgs e)
