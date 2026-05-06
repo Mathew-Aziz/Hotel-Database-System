@@ -12,7 +12,7 @@ public class GuestsForm : Form
     {
 
         InitializeComponents();
-        //this.Load += GuestsForm_Load;
+        this.Load += GuestsForm_Load;
     }
 
     private void GuestsForm_Load(object sender, EventArgs e)
@@ -41,6 +41,21 @@ public class GuestsForm : Form
     }
 
 
+    private void PopulateTextBoxesFromSelectedRow() { }
+
+    private int GetSelectedGuestId() { }
+
+    private bool ValidateInputs() { }
+
+    private void BtnAdd_Click(object sender, EventArgs e) { }
+    private void BtnDelete_Click(object sender, EventArgs e) { }
+    private void BtnUpdate_Click(object sender, EventArgs e) { }
+
+    private void BtnBack_Click(object sender, EventArgs e)
+    {
+        this.Close();
+    }
+
     private void InitializeComponents()
     {
         btnBack = new Button();
@@ -49,7 +64,7 @@ public class GuestsForm : Form
         btnDelete = new Button();
         btnLoad = new Button();
 
-        dataGridView1 = new DataGridView();
+        dgvGuests = new DataGridView();
 
         firstNameLabel = new Label();
         secondNameLabel = new Label();
@@ -62,7 +77,7 @@ public class GuestsForm : Form
         txtPhone = new TextBox();
         txtNationalId = new TextBox();
 
-        ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)dgvGuests).BeginInit();
         panel1.SuspendLayout();
         SuspendLayout();
         // 
@@ -113,12 +128,12 @@ public class GuestsForm : Form
         // 
         // dataGridView1
         // 
-        dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dataGridView1.Location = new Point(13, 171);
-        dataGridView1.Name = "dataGridView1";
-        dataGridView1.RowHeadersWidth = 53;
-        dataGridView1.Size = new Size(689, 171);
-        dataGridView1.TabIndex = 5;
+        dgvGuests.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvGuests.Location = new Point(13, 171);
+        dgvGuests.Name = "dataGridView1";
+        dgvGuests.RowHeadersWidth = 53;
+        dgvGuests.Size = new Size(689, 171);
+        dgvGuests.TabIndex = 5;
         // 
         // label1
         // 
@@ -204,14 +219,14 @@ public class GuestsForm : Form
         Controls.Add(phoneLabel);
         Controls.Add(secondNameLabel);
         Controls.Add(firstNameLabel);
-        Controls.Add(dataGridView1);
+        Controls.Add(dgvGuests);
         Controls.Add(btnLoad);
         Controls.Add(btnDelete);
         Controls.Add(btnUpdate);
         Controls.Add(btnInsert);
         Controls.Add(btnBack);
         Name = "GuestsForm";
-        ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+        ((System.ComponentModel.ISupportInitialize)dgvGuests).EndInit();
         panel1.ResumeLayout(false);
         panel1.PerformLayout();
         ResumeLayout(false);
@@ -219,9 +234,9 @@ public class GuestsForm : Form
 
     }
 
-    private void label4_Click(object sender, EventArgs e)
+    private void DgvGuests_SelectionChanged(object sender, EventArgs e)
     {
-
+        PopulateTextBoxesFromSelectedRow();
     }
 
     private Button btnBack;
@@ -229,7 +244,7 @@ public class GuestsForm : Form
     private Button btnUpdate;
     private Button btnDelete;
     private Button btnLoad;
-    private DataGridView dataGridView1;
+    private DataGridView dgvGuests;
     private Label firstNameLabel;
     private Label secondNameLabel;
     private Label phoneLabel;
