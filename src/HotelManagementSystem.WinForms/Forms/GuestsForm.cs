@@ -155,7 +155,7 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnDelete_Click(object sender, EventArgs e) {
+    private void BtnUpdate_Click(object sender, EventArgs e) {
         int guestId = GetSelectedGuestId();
         if(guestId == -1)
         {
@@ -219,7 +219,7 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnUpdate_Click(object sender, EventArgs e) { }
+    private void BtnDelete_Click(object sender, EventArgs e) { }
 
     private void BtnBack_Click(object sender, EventArgs e)
     {
