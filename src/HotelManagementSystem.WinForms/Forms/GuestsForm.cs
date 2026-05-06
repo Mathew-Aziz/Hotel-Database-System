@@ -84,7 +84,30 @@ public class GuestsForm : Form
         return guestId;
     }
 
-    private bool ValidateInputs() { }
+    // Validation
+    private static bool ValidateField(TextBox field, string fieldname)
+    {
+
+        var isEmpty = string.IsNullOrWhiteSpace(field.Text);
+        if (isEmpty)
+        {
+            MessageBox.Show("Please write " + fieldname, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            field.Focus();
+
+            return false;
+        }
+
+        return true;
+    }
+    private bool ValidateInputs() {
+
+        var inputsValid =   ValidateField(txtFirstName, "First Name") &&
+                            ValidateField(txtLastName, "Last Name") &&
+                            ValidateField(txtPhone, "Phone Number") &&
+                            ValidateField(txtNationalId, "National ID");
+
+        return inputsValid;
+    }
 
     private void BtnAdd_Click(object sender, EventArgs e) { }
     private void BtnDelete_Click(object sender, EventArgs e) { }
