@@ -29,6 +29,29 @@ public class GuestsForm : Form
 
     private void LoadGuests()
     {
+        string query = "SELECT * FROM Guests Order By guest_id";
+
+        try
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(query, conn))
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                dgvGuests.DataSource = table;
+
+                // Hide the guest_id column
+                if (dgvGuests.Columns["guest_id"] !=null)
+                    dgvGuests.Columns["guest_id"].Visible = false;
+            
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error loading guests: {ex.Message}", "Database Error", 
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
     }
 
