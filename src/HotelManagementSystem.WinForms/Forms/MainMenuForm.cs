@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Forms;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace HotelManagementSystem.WinForms.Forms;
 
