@@ -63,8 +63,17 @@ public class GuestsForm : Form
         txtNationalId.Clear();
     }
 
+    private void PopulateTextBoxesFromSelectedRow() {
+        if (dgvGuests.CurrentRow == null)
+            return;
 
-    private void PopulateTextBoxesFromSelectedRow() { }
+        DataGridViewRow row = dgvGuests.CurrentRow;
+        txtFirstName.Text = row.Cells["first_name"].Value?.ToString() ?? "";
+        txtLastName.Text = row.Cells["last_name"].Value?.ToString() ?? "";
+        txtNationalId.Text = row.Cells["national_id"].Value?.ToString() ?? "";
+        txtPhone.Text = row.Cells["phone"].Value?.ToString() ?? "";
+
+    }
 
     private int GetSelectedGuestId() { }
 
