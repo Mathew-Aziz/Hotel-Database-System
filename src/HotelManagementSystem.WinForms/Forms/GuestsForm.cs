@@ -75,7 +75,14 @@ public class GuestsForm : Form
 
     }
 
-    private int GetSelectedGuestId() { }
+    private int GetSelectedGuestId() { 
+        DataGridViewRow currentRow = dgvGuests.CurrentRow;
+        if(currentRow == null || currentRow.Cells["guest_id"] == null)
+            return -1;
+
+        int guestId = Convert.ToInt32(currentRow.Cells["guest_id"].Value);
+        return guestId;
+    }
 
     private bool ValidateInputs() { }
 
