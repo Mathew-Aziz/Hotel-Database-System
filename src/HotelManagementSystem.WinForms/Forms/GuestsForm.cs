@@ -15,13 +15,39 @@ public class GuestsForm : Form
         //this.Load += GuestsForm_Load;
     }
 
+    private void GuestsForm_Load(object sender, EventArgs e)
+    {
+        LoadGuests();
+    }
+
+    private void BtnLoad_Click(object sender, EventArgs e)
+    {
+        LoadGuests();
+        ClearTextBoxes();
+    }
+
+
+    private void LoadGuests()
+    {
+
+    }
+
+    private void clearTextBoxes()
+    {
+        txtFirstName.Clear();
+        txtLastName.Clear();
+        txtPhone.Clear();
+        txtNationalId.Clear();
+    }
+
+
     private void InitializeComponents()
     {
-        backButton = new Button();
-        insertButton = new Button();
-        updateButton = new Button();
-        deleteButton = new Button();
-        loadButton = new Button();
+        btnBack = new Button();
+        btnInsert = new Button();
+        btnUpdate = new Button();
+        btnDelete = new Button();
+        btnLoad = new Button();
 
         dataGridView1 = new DataGridView();
 
@@ -31,10 +57,10 @@ public class GuestsForm : Form
         nationalIDLabel = new Label();
 
         panel1 = new Panel();
-        firstNameText = new TextBox();
-        lastNameText = new TextBox();
-        phoneText = new TextBox();
-        nationalIdText = new TextBox();
+        txtFirstName = new TextBox();
+        txtLastName = new TextBox();
+        txtPhone = new TextBox();
+        txtNationalId = new TextBox();
 
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         panel1.SuspendLayout();
@@ -42,48 +68,48 @@ public class GuestsForm : Form
         // 
         // button1
         // 
-        backButton.Location = new Point(13, 12);
-        backButton.Name = "button1";
-        backButton.Size = new Size(98, 30);
-        backButton.TabIndex = 0;
-        backButton.Text = "button1";
-        backButton.UseVisualStyleBackColor = true;
+        btnBack.Location = new Point(13, 12);
+        btnBack.Name = "button1";
+        btnBack.Size = new Size(98, 30);
+        btnBack.TabIndex = 0;
+        btnBack.Text = "button1";
+        btnBack.UseVisualStyleBackColor = true;
         // 
         // button2
         // 
-        insertButton.Location = new Point(28, 422);
-        insertButton.Name = "button2";
-        insertButton.Size = new Size(98, 30);
-        insertButton.TabIndex = 1;
-        insertButton.Text = "button2";
-        insertButton.UseVisualStyleBackColor = true;
+        btnInsert.Location = new Point(28, 422);
+        btnInsert.Name = "button2";
+        btnInsert.Size = new Size(98, 30);
+        btnInsert.TabIndex = 1;
+        btnInsert.Text = "button2";
+        btnInsert.UseVisualStyleBackColor = true;
         // 
         // button3
         // 
-        updateButton.Location = new Point(425, 422);
-        updateButton.Name = "button3";
-        updateButton.Size = new Size(98, 30);
-        updateButton.TabIndex = 2;
-        updateButton.Text = "button3";
-        updateButton.UseVisualStyleBackColor = true;
+        btnUpdate.Location = new Point(425, 422);
+        btnUpdate.Name = "button3";
+        btnUpdate.Size = new Size(98, 30);
+        btnUpdate.TabIndex = 2;
+        btnUpdate.Text = "button3";
+        btnUpdate.UseVisualStyleBackColor = true;
         // 
         // button4
         // 
-        deleteButton.Location = new Point(604, 422);
-        deleteButton.Name = "button4";
-        deleteButton.Size = new Size(98, 30);
-        deleteButton.TabIndex = 3;
-        deleteButton.Text = "button4";
-        deleteButton.UseVisualStyleBackColor = true;
+        btnDelete.Location = new Point(604, 422);
+        btnDelete.Name = "button4";
+        btnDelete.Size = new Size(98, 30);
+        btnDelete.TabIndex = 3;
+        btnDelete.Text = "button4";
+        btnDelete.UseVisualStyleBackColor = true;
         // 
         // button5
         // 
-        loadButton.Location = new Point(234, 422);
-        loadButton.Name = "button5";
-        loadButton.Size = new Size(98, 30);
-        loadButton.TabIndex = 4;
-        loadButton.Text = "button5";
-        loadButton.UseVisualStyleBackColor = true;
+        btnLoad.Location = new Point(234, 422);
+        btnLoad.Name = "button5";
+        btnLoad.Size = new Size(98, 30);
+        btnLoad.TabIndex = 4;
+        btnLoad.Text = "button5";
+        btnLoad.UseVisualStyleBackColor = true;
         // 
         // dataGridView1
         // 
@@ -133,38 +159,38 @@ public class GuestsForm : Form
         // 
         // textBox1
         // 
-        firstNameText.Location = new Point(188, 21);
-        firstNameText.Name = "textBox1";
-        firstNameText.Size = new Size(130, 29);
-        firstNameText.TabIndex = 7;
+        txtFirstName.Location = new Point(188, 21);
+        txtFirstName.Name = "textBox1";
+        txtFirstName.Size = new Size(130, 29);
+        txtFirstName.TabIndex = 7;
         // 
         // textBox2
         // 
-        lastNameText.Location = new Point(20, 21);
-        lastNameText.Name = "textBox2";
-        lastNameText.Size = new Size(130, 29);
-        lastNameText.TabIndex = 7;
+        txtLastName.Location = new Point(20, 21);
+        txtLastName.Name = "textBox2";
+        txtLastName.Size = new Size(130, 29);
+        txtLastName.TabIndex = 7;
         // 
         // textBox3
         // 
-        phoneText.Location = new Point(368, 21);
-        phoneText.Name = "textBox3";
-        phoneText.Size = new Size(130, 29);
-        phoneText.TabIndex = 7;
+        txtPhone.Location = new Point(368, 21);
+        txtPhone.Name = "textBox3";
+        txtPhone.Size = new Size(130, 29);
+        txtPhone.TabIndex = 7;
         // 
         // textBox4
         // 
-        nationalIdText.Location = new Point(537, 21);
-        nationalIdText.Name = "textBox4";
-        nationalIdText.Size = new Size(130, 29);
-        nationalIdText.TabIndex = 7;
+        txtNationalId.Location = new Point(537, 21);
+        txtNationalId.Name = "textBox4";
+        txtNationalId.Size = new Size(130, 29);
+        txtNationalId.TabIndex = 7;
         // 
         // panel1
         // 
-        panel1.Controls.Add(lastNameText);
-        panel1.Controls.Add(phoneText);
-        panel1.Controls.Add(nationalIdText);
-        panel1.Controls.Add(firstNameText);
+        panel1.Controls.Add(txtLastName);
+        panel1.Controls.Add(txtPhone);
+        panel1.Controls.Add(txtNationalId);
+        panel1.Controls.Add(txtFirstName);
         panel1.Location = new Point(13, 61);
         panel1.Name = "panel1";
         panel1.Size = new Size(689, 82);
@@ -179,11 +205,11 @@ public class GuestsForm : Form
         Controls.Add(secondNameLabel);
         Controls.Add(firstNameLabel);
         Controls.Add(dataGridView1);
-        Controls.Add(loadButton);
-        Controls.Add(deleteButton);
-        Controls.Add(updateButton);
-        Controls.Add(insertButton);
-        Controls.Add(backButton);
+        Controls.Add(btnLoad);
+        Controls.Add(btnDelete);
+        Controls.Add(btnUpdate);
+        Controls.Add(btnInsert);
+        Controls.Add(btnBack);
         Name = "GuestsForm";
         ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
         panel1.ResumeLayout(false);
@@ -198,19 +224,19 @@ public class GuestsForm : Form
 
     }
 
-    private Button backButton;
-    private Button insertButton;
-    private Button updateButton;
-    private Button deleteButton;
-    private Button loadButton;
+    private Button btnBack;
+    private Button btnInsert;
+    private Button btnUpdate;
+    private Button btnDelete;
+    private Button btnLoad;
     private DataGridView dataGridView1;
     private Label firstNameLabel;
     private Label secondNameLabel;
     private Label phoneLabel;
     private Label nationalIDLabel;
-    private TextBox firstNameText;
-    private TextBox lastNameText;
-    private TextBox phoneText;
-    private TextBox nationalIdText;
+    private TextBox txtFirstName;
+    private TextBox txtLastName;
+    private TextBox txtPhone;
+    private TextBox txtNationalId;
     private Panel panel1;
 }
