@@ -55,7 +55,7 @@ public class GuestsForm : Form
 
     }
 
-    private void clearTextBoxes()
+    private void ClearTextBoxes()
     {
         txtFirstName.Clear();
         txtLastName.Clear();
@@ -109,7 +109,52 @@ public class GuestsForm : Form
         return inputsValid;
     }
 
-    private void BtnAdd_Click(object sender, EventArgs e) { }
+    // === CRUD ===
+    private void BtnAdd_Click(object sender, EventArgs e) {
+        if (!ValidateInputs())
+            return;
+
+        string query = @"INSERT INTO Guests (first_name, last_name, phone, national_id) VALUES (@firstName, @lastName, @phone, @nationalId)";
+
+        SqlParameter[] parameters =
+        {
+            new SqlParameter("@first_name", txtFirstName.Text.Trim()),
+            new SqlParameter("@last_name", txtLastName.Text.Trim()),
+            new SqlParameter("@phone", txtPhone.Text.Trim()),
+            new SqlParameter("@national_id", txtNationalId.Text.Trim())
+        };
+
+        try
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddRange(parameters);
+                conn.Open();
+                var rowsAffected = cmd.ExecuteNonQuery();
+
+                if(rowsAffected > 0)
+                {
+                    MessageBox.Show("Guest added successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadGuests();
+                    ClearTextBoxes();
+                }
+            }
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 2627)
+                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error adding guest: {ex.Message}", "Database Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
+    }
     private void BtnDelete_Click(object sender, EventArgs e) { }
     private void BtnUpdate_Click(object sender, EventArgs e) { }
 
