@@ -12,17 +12,21 @@ public class GuestsForm : Form
     {
 
         InitializeComponents();
-        this.Load += GuestsForm_Load;
+
+        //if (!DesignMode)
+        //    LoadGuests();
     }
 
     private void GuestsForm_Load(object sender, EventArgs e)
     {
-        LoadGuests();
+        //if (!DesignMode)
+        //    LoadGuests();
     }
 
     private void BtnLoad_Click(object sender, EventArgs e)
     {
-        LoadGuests();
+        if(!DesignMode)
+            LoadGuests();
         ClearTextBoxes();
     }
 
@@ -42,14 +46,14 @@ public class GuestsForm : Form
                 dgvGuests.DataSource = table;
 
                 // Hide the guest_id column
-                if (dgvGuests.Columns["guest_id"] !=null)
+                if (dgvGuests.Columns["guest_id"] != null)
                     dgvGuests.Columns["guest_id"].Visible = false;
-            
+
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error loading guests: {ex.Message}", "Database Error", 
+            MessageBox.Show($"Error loading guests: {ex.Message}", "Database Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -63,7 +67,8 @@ public class GuestsForm : Form
         txtNationalId.Clear();
     }
 
-    private void PopulateTextBoxesFromSelectedRow() {
+    private void PopulateTextBoxesFromSelectedRow()
+    {
         if (dgvGuests.CurrentRow == null)
             return;
 
@@ -75,9 +80,10 @@ public class GuestsForm : Form
 
     }
 
-    private int GetSelectedGuestId() { 
+    private int GetSelectedGuestId()
+    {
         DataGridViewRow currentRow = dgvGuests.CurrentRow;
-        if(currentRow == null || currentRow.Cells["guest_id"] == null)
+        if (currentRow == null || currentRow.Cells["guest_id"] == null)
             return -1;
 
         int guestId = Convert.ToInt32(currentRow.Cells["guest_id"].Value);
@@ -99,9 +105,10 @@ public class GuestsForm : Form
 
         return true;
     }
-    private bool ValidateInputs() {
+    private bool ValidateInputs()
+    {
 
-        var inputsValid =   ValidateField(txtFirstName, "First Name") &&
+        var inputsValid = ValidateField(txtFirstName, "First Name") &&
                             ValidateField(txtLastName, "Last Name") &&
                             ValidateField(txtPhone, "Phone Number") &&
                             ValidateField(txtNationalId, "National ID");
@@ -110,7 +117,8 @@ public class GuestsForm : Form
     }
 
     // === CRUD ===
-    private void BtnAdd_Click(object sender, EventArgs e) {
+    private void BtnAdd_Click(object sender, EventArgs e)
+    {
         if (!ValidateInputs())
             return;
 
@@ -133,7 +141,7 @@ public class GuestsForm : Form
                 conn.Open();
                 var rowsAffected = cmd.ExecuteNonQuery();
 
-                if(rowsAffected > 0)
+                if (rowsAffected > 0)
                 {
                     MessageBox.Show("Guest added successfully!", "Success",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,7 +153,7 @@ public class GuestsForm : Form
         catch (SqlException ex)
         {
             if (ex.Number == 2627)
-                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error", 
+                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         catch (Exception ex)
@@ -155,9 +163,10 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnUpdate_Click(object sender, EventArgs e) {
+    private void BtnUpdate_Click(object sender, EventArgs e)
+    {
         int guestId = GetSelectedGuestId();
-        if(guestId == -1)
+        if (guestId == -1)
         {
             MessageBox.Show("Please select a guest to update.", "No Selection",
                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -194,7 +203,7 @@ public class GuestsForm : Form
                 conn.Open();
                 int rowsAffected = cmd.ExecuteNonQuery();
 
-                if(rowsAffected > 0)
+                if (rowsAffected > 0)
                 {
                     MessageBox.Show("Guest updated successfully!", "Success",
                            MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -219,7 +228,8 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnDelete_Click(object sender, EventArgs e) {
+    private void BtnDelete_Click(object sender, EventArgs e)
+    {
         int guestId = GetSelectedGuestId();
 
         if (guestId == -1)
@@ -241,16 +251,16 @@ public class GuestsForm : Form
         string query = "DELETE FROM Guest WHERE guest_id = @guest_id";
         try
         {
-            using(SqlConnection conn = new SqlConnection(connectionString))
-            using(SqlCommand cmd = new SqlCommand(query, conn))
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@guest_id", guestId);
                 conn.Open();
-                
+
                 int rowsAffected = cmd.ExecuteNonQuery();
-                if(rowsAffected > 0)
+                if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Guest Deleted Successfully", "Success", 
+                    MessageBox.Show("Guest Deleted Successfully", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     LoadGuests();
@@ -308,10 +318,10 @@ public class GuestsForm : Form
         // button1
         // 
         btnBack.Location = new Point(13, 12);
-        btnBack.Name = "button1";
+        btnBack.Name = "Back";
         btnBack.Size = new Size(98, 30);
         btnBack.TabIndex = 0;
-        btnBack.Text = "button1";
+        btnBack.Text = "Back";
         btnBack.UseVisualStyleBackColor = true;
         // 
         // button2
@@ -320,7 +330,7 @@ public class GuestsForm : Form
         btnInsert.Name = "button2";
         btnInsert.Size = new Size(98, 30);
         btnInsert.TabIndex = 1;
-        btnInsert.Text = "button2";
+        btnInsert.Text = "Insert";
         btnInsert.UseVisualStyleBackColor = true;
         // 
         // button3
@@ -329,7 +339,7 @@ public class GuestsForm : Form
         btnUpdate.Name = "button3";
         btnUpdate.Size = new Size(98, 30);
         btnUpdate.TabIndex = 2;
-        btnUpdate.Text = "button3";
+        btnUpdate.Text = "Update";
         btnUpdate.UseVisualStyleBackColor = true;
         // 
         // button4
@@ -338,7 +348,7 @@ public class GuestsForm : Form
         btnDelete.Name = "button4";
         btnDelete.Size = new Size(98, 30);
         btnDelete.TabIndex = 3;
-        btnDelete.Text = "button4";
+        btnDelete.Text = "Delete";
         btnDelete.UseVisualStyleBackColor = true;
         // 
         // button5
@@ -347,8 +357,17 @@ public class GuestsForm : Form
         btnLoad.Name = "button5";
         btnLoad.Size = new Size(98, 30);
         btnLoad.TabIndex = 4;
-        btnLoad.Text = "button5";
+        btnLoad.Text = "Load";
         btnLoad.UseVisualStyleBackColor = true;
+
+        this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
+        //this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
+        this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
+        this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+        this.btnBack.Click += new System.EventHandler(this.BtnBack_Click);
+        this.dgvGuests.SelectionChanged += new System.EventHandler(this.DgvGuests_SelectionChanged);
+
+
         // 
         // dataGridView1
         // 
@@ -394,7 +413,6 @@ public class GuestsForm : Form
         nationalIDLabel.Size = new Size(52, 21);
         nationalIDLabel.TabIndex = 6;
         nationalIDLabel.Text = "label1";
-        nationalIDLabel.Click += label4_Click;
         // 
         // textBox1
         // 
@@ -478,4 +496,16 @@ public class GuestsForm : Form
     private TextBox txtPhone;
     private TextBox txtNationalId;
     private Panel panel1;
+
+    private void InitializeComponent()
+    {
+        SuspendLayout();
+        // 
+        // GuestsForm
+        // 
+        ClientSize = new Size(282, 252);
+        Name = "GuestsForm";
+        ResumeLayout(false);
+
+    }
 }
