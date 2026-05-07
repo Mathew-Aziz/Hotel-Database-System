@@ -219,7 +219,61 @@ public class GuestsForm : Form
 
         }
     }
-    private void BtnDelete_Click(object sender, EventArgs e) { }
+    private void BtnDelete_Click(object sender, EventArgs e) {
+        int guestId = GetSelectedGuestId();
+
+        if (guestId == -1)
+        {
+            MessageBox.Show("Please select a guest to delete.", "No Selection",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+        if (!ValidateInputs())
+            return;
+
+        // Confirm Deletion
+        DialogResult result = MessageBox.Show("Are you sure you want to delete this guest?\n\n" +
+               "Note: If this guest has existing bookings, deletion may fail due to foreign key constraints.",
+               "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        if (result != DialogResult.Yes)
+            return;
+
+        string query = "DELETE FROM Guest WHERE guest_id = @guest_id";
+        try
+        {
+            using(SqlConnection conn = new SqlConnection(connectionString))
+            using(SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@guest_id", guestId);
+                conn.Open();
+                
+                int rowsAffected = cmd.ExecuteNonQuery();
+                if(rowsAffected > 0)
+                {
+                    MessageBox.Show("Guest Deleted Successfully", "Success", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadGuests();
+                    ClearTextBoxes();
+                }
+            }
+        }
+        catch (SqlException ex)
+        {
+            bool foreignKeyViolation = ex.Number == 547;
+            if (foreignKeyViolation) // Foreign key violation (guest has bookings)
+            {
+                MessageBox.Show("Cannot delete this guest because they have existing bookings.\n\n" +
+                    "Delete the guest's bookings first or contact your database administrator.",
+                    "Constraint Violation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show($"Error deleting guest: {ex.Message}", "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 
     private void BtnBack_Click(object sender, EventArgs e)
     {
