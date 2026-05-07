@@ -166,10 +166,9 @@ public class BookingsForm : Form
     {
         try
         {
-            // FIX: Changed table name to Occupy
             string sql = @"
                 SELECT o.room_id, r.room_type, r.room_price
-                FROM Occupy o
+                FROM Occupies o
                 JOIN dbo.ROOM r ON o.room_id = r.room_id
                 WHERE o.booking_id = @booking_id";
 
@@ -186,10 +185,9 @@ public class BookingsForm : Form
     {
         try
         {
-            // FIX: Changed table name to Occupy
             string sql = @"
                 SELECT SUM(r.room_price * DATEDIFF(day, b.check_in_date, b.check_out_date))
-                FROM Occupy o
+                FROM Occupies o
                 JOIN dbo.ROOM r ON o.room_id = r.room_id
                 JOIN Booking b ON o.booking_id = b.booking_id
                 WHERE o.booking_id = @booking_id";
@@ -320,7 +318,7 @@ public class BookingsForm : Form
 
         try
         {
-            Db.ExecuteNonQuery("INSERT INTO Occupy (room_id, booking_id) VALUES (@room_id, @booking_id)",
+            Db.ExecuteNonQuery("INSERT INTO Occupies (room_id, booking_id) VALUES (@room_id, @booking_id)",
                 new SqlParameter("@booking_id", selectedBookingId.Value),
                 new SqlParameter("@room_id",    cmbRoomToAdd.SelectedValue));
             LoadOccupies(selectedBookingId.Value);
@@ -355,8 +353,7 @@ public class BookingsForm : Form
 
         try
         {
-            // FIX: Changed table name to Occupy
-            Db.ExecuteNonQuery("DELETE FROM Occupy WHERE booking_id = @bid AND room_id = @rid",
+            Db.ExecuteNonQuery("DELETE FROM Occupies WHERE booking_id = @bid AND room_id = @rid",
                 new SqlParameter("@bid", selectedBookingId.Value),
                 new SqlParameter("@rid", roomId));
             LoadOccupies(selectedBookingId.Value);
