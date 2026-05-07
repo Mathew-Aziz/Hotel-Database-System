@@ -87,7 +87,7 @@ WHERE guest_id = @guest_id;
 SELECT
   room_id,     -- PK used for Update/Delete and for Occupies link
   room_type,   -- e.g., SINGLE, DOUBLE, etc.
-  room_price   -- price per unit (you can interpret as per night in GUI)
+   room_price AS room_price_per_night -- price per unit (you can interpret as per night in GUI)
 FROM dbo.ROOM
 ORDER BY room_id;
 
@@ -227,6 +227,7 @@ FROM dbo.Occupies o
 JOIN dbo.ROOM r ON r.room_id = o.room_id
 WHERE o.booking_id = @booking_id
 ORDER BY o.room_id;
+
 
 -- [BookingsForm - Rooms in Booking] INSERT: Add a room to a booking.
 -- Params:
