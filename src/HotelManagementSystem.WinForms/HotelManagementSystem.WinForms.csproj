@@ -16,4 +16,8 @@
     <Compile Include="Data\\Db.cs" />
     <Compile Include="Utils\\Validation.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+  </ItemGroup>
 </Project>
