@@ -1,7 +1,5 @@
 using System;
 using System.Windows.Forms;
-using System.Data;
-using Microsoft.Data.SqlClient;
 
 namespace HotelManagementSystem.WinForms.Forms;
 
@@ -13,10 +11,48 @@ public class MainMenuForm : Form
         Width = 800;
         Height = 500;
 
-        var btnGuests = new Button { Text = "Guests", Left = 50, Top = 50, Width = 200 };
-        var btnRooms = new Button { Text = "Rooms", Left = 50, Top = 100, Width = 200 };
-        var btnBookings = new Button { Text = "Bookings", Left = 50, Top = 150, Width = 200 };
-        var btnServicesStaff = new Button { Text = "Services & Staff", Left = 50, Top = 200, Width = 200 };
+        // Use consistent button dimensions (Width = 200, Height = 32)
+        int btnWidth = 200;
+        int btnHeight = 32;
+        int startLeft = 50;
+        int startTop = 50;
+        int spacing = 60; // vertical spacing between buttons
+
+        var btnGuests = new Button 
+        { 
+            Text = "Guests", 
+            Left = startLeft, 
+            Top = startTop, 
+            Width = btnWidth, 
+            Height = btnHeight 
+        };
+        
+        var btnRooms = new Button 
+        { 
+            Text = "Rooms", 
+            Left = startLeft, 
+            Top = startTop + spacing, 
+            Width = btnWidth, 
+            Height = btnHeight 
+        };
+        
+        var btnBookings = new Button 
+        { 
+            Text = "Bookings", 
+            Left = startLeft, 
+            Top = startTop + spacing * 2, 
+            Width = btnWidth, 
+            Height = btnHeight 
+        };
+        
+        var btnServicesStaff = new Button 
+        { 
+            Text = "Services & Staff", 
+            Left = startLeft, 
+            Top = startTop + spacing * 3, 
+            Width = btnWidth, 
+            Height = btnHeight 
+        };
 
         btnGuests.Click += (_, _) => { new GuestsForm().Show(); };
         btnRooms.Click += (_, _) => { new RoomsForm().Show(); };

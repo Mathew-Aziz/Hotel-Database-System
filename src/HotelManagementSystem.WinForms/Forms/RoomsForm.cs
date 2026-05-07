@@ -50,12 +50,13 @@ public class RoomsForm : Form
 
         txtRoomPrice = new TextBox { Left = 610, Top = 70, Width = 150 };
 
-        // Buttons
-        btnLoad = new Button { Text = "Load", Left = 500, Top = 120, Width = 80 };
-        btnAdd = new Button { Text = "Add", Left = 590, Top = 120, Width = 80 };
-        btnUpdate = new Button { Text = "Update", Left = 500, Top = 160, Width = 80 };
-        btnDelete = new Button { Text = "Delete", Left = 590, Top = 160, Width = 80 };
-        btnBack = new Button { Text = "Back to Menu", Left = 500, Top = 210, Width = 170 };
+        // Buttons - uniform height = 32
+        int btnHeight = 32;
+        btnLoad = new Button { Text = "Load", Left = 500, Top = 120, Width = 80, Height = btnHeight };
+        btnAdd = new Button { Text = "Add", Left = 590, Top = 120, Width = 80, Height = btnHeight };
+        btnUpdate = new Button { Text = "Update", Left = 500, Top = 160, Width = 80, Height = btnHeight };
+        btnDelete = new Button { Text = "Delete", Left = 590, Top = 160, Width = 80, Height = btnHeight };
+        btnBack = new Button { Text = "Back to Menu", Left = 500, Top = 210, Width = 170, Height = btnHeight };
 
         btnLoad.Click += (_, _) => LoadRooms();
         btnAdd.Click += BtnAdd_Click;
