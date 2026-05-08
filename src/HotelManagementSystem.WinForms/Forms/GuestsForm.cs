@@ -294,162 +294,181 @@ public class GuestsForm : Form
     // DESIGNER AUTO-GENERATED CODE - DO NOT MODIFY MANUALLY
     private void InitializeComponent()
     {
-        this.btnBack = new Button();
-        this.btnInsert = new Button();
-        this.btnUpdate = new Button();
-        this.btnDelete = new Button();
-        this.btnLoad = new Button();
-        this.dgvGuests = new DataGridView();
-        this.firstNameLabel = new Label();
-        this.secondNameLabel = new Label();
-        this.phoneLabel = new Label();
-        this.nationalIDLabel = new Label();
-        this.panel1 = new Panel();
-        this.txtFirstName = new TextBox();
-        this.txtLastName = new TextBox();
-        this.txtPhone = new TextBox();
-        this.txtNationalId = new TextBox();
-
-        ((System.ComponentModel.ISupportInitialize)this.dgvGuests).BeginInit();
-        this.panel1.SuspendLayout();
-        this.SuspendLayout();
-
+        btnBack = new Button();
+        btnInsert = new Button();
+        btnUpdate = new Button();
+        btnDelete = new Button();
+        btnLoad = new Button();
+        dgvGuests = new DataGridView();
+        panel1 = new Panel();
+        label4 = new Label();
+        label3 = new Label();
+        label2 = new Label();
+        label1 = new Label();
+        txtLastName = new TextBox();
+        txtPhone = new TextBox();
+        txtNationalId = new TextBox();
+        txtFirstName = new TextBox();
+        ((System.ComponentModel.ISupportInitialize)dgvGuests).BeginInit();
+        panel1.SuspendLayout();
+        SuspendLayout();
+        // 
         // btnBack
-        this.btnBack.Location = new System.Drawing.Point(13, 12);
-        this.btnBack.Name = "btnBack";
-        this.btnBack.Size = new System.Drawing.Size(98, 30);
-        this.btnBack.TabIndex = 0;
-        this.btnBack.Text = "Back";
-        this.btnBack.UseVisualStyleBackColor = true;
-        this.btnBack.Click += new System.EventHandler(this.BtnBack_Click);
-
+        // 
+        btnBack.Location = new Point(14, 12);
+        btnBack.Name = "btnBack";
+        btnBack.Size = new Size(98, 30);
+        btnBack.TabIndex = 0;
+        btnBack.Text = "Back";
+        btnBack.UseVisualStyleBackColor = true;
+        btnBack.Click += BtnBack_Click;
+        // 
         // btnInsert
-        this.btnInsert.Location = new System.Drawing.Point(28, 422);
-        this.btnInsert.Name = "btnInsert";
-        this.btnInsert.Size = new System.Drawing.Size(98, 30);
-        this.btnInsert.TabIndex = 1;
-        this.btnInsert.Text = "Insert";
-        this.btnInsert.UseVisualStyleBackColor = true;
-        this.btnInsert.Click += new System.EventHandler(this.BtnAdd_Click);
-
+        // 
+        btnInsert.Location = new Point(14, 125);
+        btnInsert.Name = "btnInsert";
+        btnInsert.Size = new Size(149, 30);
+        btnInsert.TabIndex = 1;
+        btnInsert.Text = "Add New Guest";
+        btnInsert.UseVisualStyleBackColor = true;
+        btnInsert.Click += BtnAdd_Click;
+        // 
         // btnUpdate
-        this.btnUpdate.Location = new System.Drawing.Point(425, 422);
-        this.btnUpdate.Name = "btnUpdate";
-        this.btnUpdate.Size = new System.Drawing.Size(98, 30);
-        this.btnUpdate.TabIndex = 2;
-        this.btnUpdate.Text = "Update";
-        this.btnUpdate.UseVisualStyleBackColor = true;
-        this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
-
+        // 
+        btnUpdate.Location = new Point(401, 125);
+        btnUpdate.Name = "btnUpdate";
+        btnUpdate.Size = new Size(169, 30);
+        btnUpdate.TabIndex = 2;
+        btnUpdate.Text = "Update Information";
+        btnUpdate.UseVisualStyleBackColor = true;
+        btnUpdate.Click += BtnUpdate_Click;
+        // 
         // btnDelete
-        this.btnDelete.Location = new System.Drawing.Point(604, 422);
-        this.btnDelete.Name = "btnDelete";
-        this.btnDelete.Size = new System.Drawing.Size(98, 30);
-        this.btnDelete.TabIndex = 3;
-        this.btnDelete.Text = "Delete";
-        this.btnDelete.UseVisualStyleBackColor = true;
-        this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
-
+        // 
+        btnDelete.Location = new Point(421, 432);
+        btnDelete.Name = "btnDelete";
+        btnDelete.Size = new Size(149, 30);
+        btnDelete.TabIndex = 3;
+        btnDelete.Text = "Delete Guest";
+        btnDelete.UseVisualStyleBackColor = true;
+        btnDelete.Click += BtnDelete_Click;
+        // 
         // btnLoad
-        this.btnLoad.Location = new System.Drawing.Point(234, 422);
-        this.btnLoad.Name = "btnLoad";
-        this.btnLoad.Size = new System.Drawing.Size(98, 30);
-        this.btnLoad.TabIndex = 4;
-        this.btnLoad.Text = "Load";
-        this.btnLoad.UseVisualStyleBackColor = true;
-        this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
-
+        // 
+        btnLoad.Location = new Point(14, 432);
+        btnLoad.Name = "btnLoad";
+        btnLoad.Size = new Size(149, 30);
+        btnLoad.TabIndex = 4;
+        btnLoad.Text = "Load Records";
+        btnLoad.UseVisualStyleBackColor = true;
+        btnLoad.Click += BtnLoad_Click;
+        // 
         // dgvGuests
-        this.dgvGuests.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        this.dgvGuests.Location = new System.Drawing.Point(13, 171);
-        this.dgvGuests.Name = "dgvGuests";
-        this.dgvGuests.RowHeadersWidth = 53;
-        this.dgvGuests.Size = new System.Drawing.Size(689, 171);
-        this.dgvGuests.TabIndex = 5;
-        this.dgvGuests.SelectionChanged += new System.EventHandler(this.DgvGuests_SelectionChanged);
-
-        // Labels
-        this.firstNameLabel.AutoSize = true;
-        this.firstNameLabel.Location = new System.Drawing.Point(50, 368);
-        this.firstNameLabel.Name = "firstNameLabel";
-        this.firstNameLabel.Size = new System.Drawing.Size(52, 21);
-        this.firstNameLabel.TabIndex = 6;
-        this.firstNameLabel.Text = "First Name";
-
-        this.secondNameLabel.AutoSize = true;
-        this.secondNameLabel.Location = new System.Drawing.Point(253, 368);
-        this.secondNameLabel.Name = "secondNameLabel";
-        this.secondNameLabel.Size = new System.Drawing.Size(52, 21);
-        this.secondNameLabel.TabIndex = 6;
-        this.secondNameLabel.Text = "Last Name";
-
-        this.phoneLabel.AutoSize = true;
-        this.phoneLabel.Location = new System.Drawing.Point(443, 368);
-        this.phoneLabel.Name = "phoneLabel";
-        this.phoneLabel.Size = new System.Drawing.Size(52, 21);
-        this.phoneLabel.TabIndex = 6;
-        this.phoneLabel.Text = "Phone";
-
-        this.nationalIDLabel.AutoSize = true;
-        this.nationalIDLabel.Location = new System.Drawing.Point(623, 368);
-        this.nationalIDLabel.Name = "nationalIDLabel";
-        this.nationalIDLabel.Size = new System.Drawing.Size(52, 21);
-        this.nationalIDLabel.TabIndex = 6;
-        this.nationalIDLabel.Text = "National ID";
-
-        // Panel with TextBoxes
-        this.panel1.Controls.Add(this.txtLastName);
-        this.panel1.Controls.Add(this.txtPhone);
-        this.panel1.Controls.Add(this.txtNationalId);
-        this.panel1.Controls.Add(this.txtFirstName);
-        this.panel1.Location = new System.Drawing.Point(13, 61);
-        this.panel1.Name = "panel1";
-        this.panel1.Size = new System.Drawing.Size(689, 82);
-        this.panel1.TabIndex = 8;
-
-        // TextBoxes
-        this.txtFirstName.Location = new System.Drawing.Point(20, 21);
-        this.txtFirstName.Name = "txtFirstName";
-        this.txtFirstName.Size = new System.Drawing.Size(130, 29);
-        this.txtFirstName.TabIndex = 7;
-
-        this.txtLastName.Location = new System.Drawing.Point(188, 21);
-        this.txtLastName.Name = "txtLastName";
-        this.txtLastName.Size = new System.Drawing.Size(130, 29);
-        this.txtLastName.TabIndex = 7;
-
-        this.txtPhone.Location = new System.Drawing.Point(368, 21);
-        this.txtPhone.Name = "txtPhone";
-        this.txtPhone.Size = new System.Drawing.Size(130, 29);
-        this.txtPhone.TabIndex = 7;
-
-        this.txtNationalId.Location = new System.Drawing.Point(537, 21);
-        this.txtNationalId.Name = "txtNationalId";
-        this.txtNationalId.Size = new System.Drawing.Size(130, 29);
-        this.txtNationalId.TabIndex = 7;
-
-        // Form
-        this.ClientSize = new System.Drawing.Size(892, 593);
-        this.Controls.Add(this.panel1);
-        this.Controls.Add(this.nationalIDLabel);
-        this.Controls.Add(this.phoneLabel);
-        this.Controls.Add(this.secondNameLabel);
-        this.Controls.Add(this.firstNameLabel);
-        this.Controls.Add(this.dgvGuests);
-        this.Controls.Add(this.btnLoad);
-        this.Controls.Add(this.btnDelete);
-        this.Controls.Add(this.btnUpdate);
-        this.Controls.Add(this.btnInsert);
-        this.Controls.Add(this.btnBack);
-        this.Name = "GuestsForm";
-        this.Text = "Guests Management";
-        this.Load += new System.EventHandler(this.GuestsForm_Load);
-
-        ((System.ComponentModel.ISupportInitialize)this.dgvGuests).EndInit();
-        this.panel1.ResumeLayout(false);
-        this.panel1.PerformLayout();
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        // 
+        dgvGuests.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvGuests.Location = new Point(14, 161);
+        dgvGuests.Name = "dgvGuests";
+        dgvGuests.RowHeadersWidth = 53;
+        dgvGuests.Size = new Size(556, 265);
+        dgvGuests.TabIndex = 5;
+        dgvGuests.SelectionChanged += DgvGuests_SelectionChanged;
+        // 
+        // panel1
+        // 
+        panel1.Controls.Add(label4);
+        panel1.Controls.Add(label3);
+        panel1.Controls.Add(label2);
+        panel1.Controls.Add(label1);
+        panel1.Controls.Add(txtLastName);
+        panel1.Controls.Add(txtPhone);
+        panel1.Controls.Add(txtNationalId);
+        panel1.Controls.Add(txtFirstName);
+        panel1.Location = new Point(14, 48);
+        panel1.Name = "panel1";
+        panel1.Size = new Size(556, 71);
+        panel1.TabIndex = 8;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(468, 10);
+        label4.Name = "label4";
+        label4.Size = new Size(88, 21);
+        label4.TabIndex = 8;
+        label4.Text = "National ID";
+        // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Location = new Point(308, 10);
+        label3.Name = "label3";
+        label3.Size = new Size(116, 21);
+        label3.TabIndex = 8;
+        label3.Text = "Phone Number";
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Location = new Point(152, 10);
+        label2.Name = "label2";
+        label2.Size = new Size(107, 21);
+        label2.TabIndex = 8;
+        label2.Text = "Second Name";
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Location = new Point(19, 10);
+        label1.Name = "label1";
+        label1.Size = new Size(86, 21);
+        label1.TabIndex = 8;
+        label1.Text = "First Name";
+        // 
+        // txtLastName
+        // 
+        txtLastName.Location = new Point(135, 34);
+        txtLastName.Name = "txtLastName";
+        txtLastName.Size = new Size(133, 29);
+        txtLastName.TabIndex = 7;
+        // 
+        // txtPhone
+        // 
+        txtPhone.Location = new Point(298, 34);
+        txtPhone.Name = "txtPhone";
+        txtPhone.Size = new Size(136, 29);
+        txtPhone.TabIndex = 7;
+        // 
+        // txtNationalId
+        // 
+        txtNationalId.Location = new Point(468, 34);
+        txtNationalId.Name = "txtNationalId";
+        txtNationalId.Size = new Size(88, 29);
+        txtNationalId.TabIndex = 7;
+        // 
+        // txtFirstName
+        // 
+        txtFirstName.Location = new Point(0, 34);
+        txtFirstName.Name = "txtFirstName";
+        txtFirstName.Size = new Size(109, 29);
+        txtFirstName.TabIndex = 7;
+        // 
+        // GuestsForm
+        // 
+        ClientSize = new Size(593, 475);
+        Controls.Add(panel1);
+        Controls.Add(dgvGuests);
+        Controls.Add(btnLoad);
+        Controls.Add(btnDelete);
+        Controls.Add(btnUpdate);
+        Controls.Add(btnInsert);
+        Controls.Add(btnBack);
+        Name = "GuestsForm";
+        Text = "Guests Management";
+        Load += GuestsForm_Load;
+        ((System.ComponentModel.ISupportInitialize)dgvGuests).EndInit();
+        panel1.ResumeLayout(false);
+        panel1.PerformLayout();
+        ResumeLayout(false);
     }
 
     // Control declarations
@@ -459,13 +478,14 @@ public class GuestsForm : Form
     private Button btnDelete;
     private Button btnLoad;
     private DataGridView dgvGuests;
-    private Label firstNameLabel;
-    private Label secondNameLabel;
-    private Label phoneLabel;
-    private Label nationalIDLabel;
     private TextBox txtFirstName;
     private TextBox txtLastName;
     private TextBox txtPhone;
     private TextBox txtNationalId;
     private Panel panel1;
+    private Label label4;
+    private Label label3;
+    private Label label2;
+    private Label label1;
+
 }
