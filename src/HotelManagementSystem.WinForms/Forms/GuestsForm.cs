@@ -2,53 +2,50 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using HotelManagementSystem.WinForms.Data;
 
 namespace HotelManagementSystem.WinForms.Forms;
 
 public class GuestsForm : Form
 {
-    public string connectionString = "Server=localhost;Database=HotelDB;Trusted_Connection=True;TrustServerCertificate=True;";
     public GuestsForm()
     {
-        InitializeComponent(); // This should call the auto-generated method
+        InitializeComponent();
 
         // Only load data if not in designer mode
         if (!DesignMode)
             LoadGuests();
     }
 
-    private void GuestsForm_Load(object sender, EventArgs e)
-    {
-        // Remove this or keep empty - we're loading in constructor
-    }
-
     private void BtnLoad_Click(object sender, EventArgs e)
     {
         if (!DesignMode)
             LoadGuests();
+
         ClearTextBoxes();
     }
 
     private void LoadGuests()
     {
-        if (DesignMode) return;
+        if (DesignMode)
+            return;
 
-        // FIXED: Changed from 'Guests' to 'GUEST'
         string query = "SELECT * FROM GUEST ORDER BY guest_id";
 
         try
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(query, conn))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                DataTable table = new DataTable();
-                adapter.Fill(table);
-                dgvGuests.DataSource = table;
+            DataTable table = Db.ExecuteSelect(query);
+            dgvGuests.DataSource = table;
 
-                // Hide the guest_id column
-                if (dgvGuests.Columns["guest_id"] != null)
-                    dgvGuests.Columns["guest_id"].Visible = false;
+            // Hide the guest_id column
+            if (dgvGuests.Columns["guest_id"] != null)
+                dgvGuests.Columns["guest_id"].Visible = false;
+
+            // Move National ID Column to the end
+            if (dgvGuests.Columns["guest_national_id"] != null)
+            {
+                int lastIndex = dgvGuests.Columns.Count - 1;
+                dgvGuests.Columns["guest_national_id"].DisplayIndex = lastIndex;
             }
         }
         catch (Exception ex)
@@ -58,6 +55,7 @@ public class GuestsForm : Form
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     private void ClearTextBoxes()
     {
         txtFirstName.Clear();
@@ -72,7 +70,6 @@ public class GuestsForm : Form
             return;
 
         DataGridViewRow row = dgvGuests.CurrentRow;
-        // FIXED: Updated column names to match database
         txtFirstName.Text = row.Cells["guest_first_name"].Value?.ToString() ?? "";
         txtLastName.Text = row.Cells["guest_last_name"].Value?.ToString() ?? "";
         txtNationalId.Text = row.Cells["guest_national_id"].Value?.ToString() ?? "";
@@ -95,7 +92,8 @@ public class GuestsForm : Form
         var isEmpty = string.IsNullOrWhiteSpace(field.Text);
         if (isEmpty)
         {
-            MessageBox.Show("Please write " + fieldname, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Please write " + fieldname, "Validation Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             field.Focus();
             return false;
         }
@@ -111,49 +109,40 @@ public class GuestsForm : Form
         return inputsValid;
     }
 
-    // === CRUD ===
+    // === CRUD Operations ===
+
     private void BtnAdd_Click(object sender, EventArgs e)
     {
         if (!ValidateInputs())
             return;
 
-        // FIXED: Updated table name and column names
         string query = @"INSERT INTO GUEST (guest_first_name, guest_last_name, guest_phone, guest_national_id) 
-                     VALUES (@firstName, @lastName, @phone, @nationalId)";
+                         VALUES (@firstName, @lastName, @phone, @nationalId)";
 
         SqlParameter[] parameters =
         {
-        new SqlParameter("@firstName", txtFirstName.Text.Trim()),
-        new SqlParameter("@lastName", txtLastName.Text.Trim()),
-        new SqlParameter("@phone", txtPhone.Text.Trim()),
-        new SqlParameter("@nationalId", txtNationalId.Text.Trim())
-    };
+            new SqlParameter("@firstName", txtFirstName.Text.Trim()),
+            new SqlParameter("@lastName", txtLastName.Text.Trim()),
+            new SqlParameter("@phone", txtPhone.Text.Trim()),
+            new SqlParameter("@nationalId", txtNationalId.Text.Trim())
+        };
 
         try
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddRange(parameters);
-                conn.Open();
-                var rowsAffected = cmd.ExecuteNonQuery();
+            int rowsAffected = Db.ExecuteNonQuery(query, parameters);
 
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show("Guest added successfully!", "Success",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadGuests();
-                    ClearTextBoxes();
-                }
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Guest added successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadGuests();
+                ClearTextBoxes();
             }
         }
-        catch (SqlException ex)
+        catch (SqlException ex) when (ex.Number == 2627)
         {
-            if (ex.Number == 2627)
-                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-                MessageBox.Show($"SQL Error: {ex.Message}", "Database Error");
+            MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         catch (Exception ex)
         {
@@ -161,6 +150,7 @@ public class GuestsForm : Form
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     private void BtnUpdate_Click(object sender, EventArgs e)
     {
         int guestId = GetSelectedGuestId();
@@ -174,52 +164,38 @@ public class GuestsForm : Form
         if (!ValidateInputs())
             return;
 
-        // FIXED: Updated table name and column names
         string query = @"UPDATE GUEST 
-                     SET guest_first_name = @first_name, 
-                         guest_last_name = @last_name, 
-                         guest_phone = @phone, 
-                         guest_national_id = @national_id 
-                     WHERE guest_id = @guest_id";
+                         SET guest_first_name = @firstName, 
+                             guest_last_name = @lastName, 
+                             guest_phone = @phone, 
+                             guest_national_id = @nationalId 
+                         WHERE guest_id = @guestId";
 
         SqlParameter[] parameters =
         {
-        new SqlParameter("@first_name", txtFirstName.Text.Trim()),
-        new SqlParameter("@last_name", txtLastName.Text.Trim()),
-        new SqlParameter("@phone", txtPhone.Text.Trim()),
-        new SqlParameter("@national_id", txtNationalId.Text.Trim()),
-        new SqlParameter("@guest_id", guestId)
-    };
+            new SqlParameter("@firstName", txtFirstName.Text.Trim()),
+            new SqlParameter("@lastName", txtLastName.Text.Trim()),
+            new SqlParameter("@phone", txtPhone.Text.Trim()),
+            new SqlParameter("@nationalId", txtNationalId.Text.Trim()),
+            new SqlParameter("@guestId", guestId)
+        };
 
         try
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddRange(parameters);
-                conn.Open();
-                int rowsAffected = cmd.ExecuteNonQuery();
+            int rowsAffected = Db.ExecuteNonQuery(query, parameters);
 
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show("Guest updated successfully!", "Success",
-                           MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadGuests();
-                    ClearTextBoxes();
-                }
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Guest updated successfully!", "Success",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadGuests();
+                ClearTextBoxes();
             }
         }
-        catch (SqlException ex)
+        catch (SqlException ex) when (ex.Number == 2627)
         {
-            if (ex.Number == 2627)
-            {
-                MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                MessageBox.Show($"SQL Error: {ex.Message}", "Database Error");
-            }
+            MessageBox.Show("A guest with this National ID already exists.", "Duplicate Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         catch (Exception ex)
         {
@@ -227,6 +203,7 @@ public class GuestsForm : Form
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     private void BtnDelete_Click(object sender, EventArgs e)
     {
         int guestId = GetSelectedGuestId();
@@ -245,42 +222,34 @@ public class GuestsForm : Form
         if (result != DialogResult.Yes)
             return;
 
-        // FIXED: Changed from 'Guests' to 'GUEST'
-        string query = "DELETE FROM GUEST WHERE guest_id = @guest_id";
+        string query = "DELETE FROM GUEST WHERE guest_id = @guestId";
+        SqlParameter[] parameters = { new SqlParameter("@guestId", guestId) };
 
         try
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@guest_id", guestId);
-                conn.Open();
+            int rowsAffected = Db.ExecuteNonQuery(query, parameters);
 
-                int rowsAffected = cmd.ExecuteNonQuery();
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show("Guest Deleted Successfully", "Success",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadGuests();
-                    ClearTextBoxes();
-                }
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Guest Deleted Successfully", "Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadGuests();
+                ClearTextBoxes();
             }
         }
-        catch (SqlException ex)
+        catch (SqlException ex) when (ex.Number == 547) // Foreign key violation
         {
-            if (ex.Number == 547) // Foreign key violation
-            {
-                MessageBox.Show("Cannot delete this guest because they have existing bookings.\n\n" +
-                    "Delete the guest's bookings first.",
-                    "Constraint Violation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                MessageBox.Show($"Error deleting guest: {ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("Cannot delete this guest because they have existing bookings.\n\n" +
+                "Delete the guest's bookings first.",
+                "Constraint Violation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error deleting guest: {ex.Message}", "Database Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     private void BtnBack_Click(object sender, EventArgs e)
     {
         this.Close();
@@ -335,7 +304,7 @@ public class GuestsForm : Form
         // 
         // btnUpdate
         // 
-        btnUpdate.Location = new Point(401, 125);
+        btnUpdate.Location = new Point(441, 125);
         btnUpdate.Name = "btnUpdate";
         btnUpdate.Size = new Size(169, 30);
         btnUpdate.TabIndex = 2;
@@ -345,7 +314,7 @@ public class GuestsForm : Form
         // 
         // btnDelete
         // 
-        btnDelete.Location = new Point(421, 432);
+        btnDelete.Location = new Point(461, 432);
         btnDelete.Name = "btnDelete";
         btnDelete.Size = new Size(149, 30);
         btnDelete.TabIndex = 3;
@@ -369,7 +338,7 @@ public class GuestsForm : Form
         dgvGuests.Location = new Point(14, 161);
         dgvGuests.Name = "dgvGuests";
         dgvGuests.RowHeadersWidth = 53;
-        dgvGuests.Size = new Size(556, 265);
+        dgvGuests.Size = new Size(599, 265);
         dgvGuests.TabIndex = 5;
         dgvGuests.SelectionChanged += DgvGuests_SelectionChanged;
         // 
@@ -385,13 +354,13 @@ public class GuestsForm : Form
         panel1.Controls.Add(txtFirstName);
         panel1.Location = new Point(14, 48);
         panel1.Name = "panel1";
-        panel1.Size = new Size(556, 71);
+        panel1.Size = new Size(599, 71);
         panel1.TabIndex = 8;
         // 
         // label4
         // 
         label4.AutoSize = true;
-        label4.Location = new Point(468, 10);
+        label4.Location = new Point(508, 10);
         label4.Name = "label4";
         label4.Size = new Size(88, 21);
         label4.TabIndex = 8;
@@ -400,7 +369,7 @@ public class GuestsForm : Form
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(308, 10);
+        label3.Location = new Point(349, 10);
         label3.Name = "label3";
         label3.Size = new Size(116, 21);
         label3.TabIndex = 8;
@@ -409,7 +378,7 @@ public class GuestsForm : Form
         // label2
         // 
         label2.AutoSize = true;
-        label2.Location = new Point(152, 10);
+        label2.Location = new Point(181, 10);
         label2.Name = "label2";
         label2.Size = new Size(107, 21);
         label2.TabIndex = 8;
@@ -426,21 +395,21 @@ public class GuestsForm : Form
         // 
         // txtLastName
         // 
-        txtLastName.Location = new Point(135, 34);
+        txtLastName.Location = new Point(164, 34);
         txtLastName.Name = "txtLastName";
         txtLastName.Size = new Size(133, 29);
         txtLastName.TabIndex = 7;
         // 
         // txtPhone
         // 
-        txtPhone.Location = new Point(298, 34);
+        txtPhone.Location = new Point(339, 34);
         txtPhone.Name = "txtPhone";
         txtPhone.Size = new Size(136, 29);
         txtPhone.TabIndex = 7;
         // 
         // txtNationalId
         // 
-        txtNationalId.Location = new Point(468, 34);
+        txtNationalId.Location = new Point(508, 34);
         txtNationalId.Name = "txtNationalId";
         txtNationalId.Size = new Size(88, 29);
         txtNationalId.TabIndex = 7;
@@ -454,7 +423,7 @@ public class GuestsForm : Form
         // 
         // GuestsForm
         // 
-        ClientSize = new Size(593, 475);
+        ClientSize = new Size(625, 475);
         Controls.Add(panel1);
         Controls.Add(dgvGuests);
         Controls.Add(btnLoad);
@@ -464,7 +433,6 @@ public class GuestsForm : Form
         Controls.Add(btnBack);
         Name = "GuestsForm";
         Text = "Guests Management";
-        Load += GuestsForm_Load;
         ((System.ComponentModel.ISupportInitialize)dgvGuests).EndInit();
         panel1.ResumeLayout(false);
         panel1.PerformLayout();
