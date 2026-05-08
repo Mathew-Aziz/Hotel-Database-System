@@ -149,9 +149,6 @@ private void BuildUI()
     {
         try
         {
-            // FIX 1: Include guest_id and b.guest_id in SELECT so we can set
-            //         cmbGuest.SelectedValue directly without fragile name matching.
-            // FIX 2: Use dbo. schema prefix on all tables (matches HotelDB.sql).
             string sql = @"
                 SELECT b.booking_id,
                        b.guest_id,
@@ -255,10 +252,6 @@ private void BuildUI()
         }
     }
 
-    // ---------------------------------------------------------------
-    // Selection changed
-    // ---------------------------------------------------------------
-
     private void DgvBookings_SelectionChanged(object sender, EventArgs e)
     {
         if (dgvBookings.SelectedRows.Count == 0) return;
@@ -266,7 +259,6 @@ private void BuildUI()
         var row = dgvBookings.SelectedRows[0];
         selectedBookingId = Convert.ToInt32(row.Cells["booking_id"].Value);
 
-        // FIX 3: Use guest_id (int) to set ComboBox value directly — no fragile name matching.
         cmbGuest.SelectedValue = Convert.ToInt32(row.Cells["guest_id"].Value);
 
         dtpCheckIn.Value  = Convert.ToDateTime(row.Cells["check_in_date"].Value);
@@ -294,7 +286,6 @@ private void BuildUI()
                 VALUES
                     (@guest_id, @check_in, @check_out, @booking_status, @payment_status)";
 
-            // FIX 4: Always pass params as an array — matches ExecuteNonQuery(string, params SqlParameter[])
             SqlParameter[] p = {
                 new SqlParameter("@guest_id",        cmbGuest.SelectedValue),
                 new SqlParameter("@check_in",        dtpCheckIn.Value.Date),
@@ -381,7 +372,6 @@ private void BuildUI()
         }
         catch (SqlException ex) when (ex.Number == 547)
         {
-            // 547 = FK violation (e.g. if cascade was not set for some reason)
             MessageBox.Show("Cannot delete: remove linked records first.", "Foreign Key Constraint",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }

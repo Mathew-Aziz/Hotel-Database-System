@@ -8,20 +8,17 @@ namespace HotelManagementSystem.WinForms.Forms
 {
     public class ServicesStaffForm : Form
     {
-        // ── Services section ──────────────────────────────────────
         private DataGridView dgvServices;
         private TextBox txtServiceType, txtServicePrice;
         private Button btnLoadServices, btnAddService, btnUpdateService, btnDeleteService;
         private int? selectedServiceId = null;
 
-        // ── Staff section ─────────────────────────────────────────
         private DataGridView dgvStaff;
         private TextBox txtStaffFirst, txtStaffLast, txtStaffPhone, txtStaffNatId, txtStaffSalary;
         private ComboBox cmbStaffRole;
         private Button btnLoadStaff, btnAddStaff, btnUpdateStaff, btnDeleteStaff;
         private int? selectedStaffId = null;
 
-        // ── Uses section (Booking → Service usage) ────────────────
         private DataGridView dgvUses;
         private ComboBox cmbUsesBooking, cmbUsesService;
         private DateTimePicker dtpUseDate;
@@ -31,7 +28,7 @@ namespace HotelManagementSystem.WinForms.Forms
         private int? selectedUsesServiceId = null;
         private DateTime? selectedUseDate = null;
 
-        // ── Provides section (Staff → Service assignment) ─────────
+
         private DataGridView dgvAssignments;
         private ComboBox cmbStaffToAssign, cmbServiceToAssign, cmbShift, cmbStatus;
         private Button btnLoadAssignments, btnAddAssignment, btnUpdateAssignment, btnDeleteAssignment;
@@ -39,10 +36,9 @@ namespace HotelManagementSystem.WinForms.Forms
         private int? selectedAssignmentServiceId = null;
         private DateTime? selectedAssignmentDate = null;
 
-        // ── Navigation ────────────────────────────────────────────
+
         private Button btnBack;
 
-        // ─────────────────────────────────────────────────────────
         public ServicesStaffForm()
         {
             Text = "Manage Services & Staff";
@@ -55,12 +51,8 @@ namespace HotelManagementSystem.WinForms.Forms
             LoadAllGrids();
         }
 
-        // ══════════════════════════════════════════════════════════
-        //  UI BUILDER
-        // ══════════════════════════════════════════════════════════
         private void BuildUI()
         {
-            // ── Back button (top-right) ───────────────────────────
             btnBack = new Button
             {
                 Text = "◄ Back to Menu",
@@ -81,7 +73,6 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(dgvServices);
             y += 190;
 
-            // Input row
             int x = 20;
             Controls.Add(MakeLabel("Type:", x, y));
             txtServiceType = new TextBox { Left = x + 45, Top = y, Width = 160 };
@@ -92,15 +83,15 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(txtServicePrice);
             y += 32;
 
-            // Buttons row
+
             btnLoadServices   = MakeButton("Refresh",        x,        y);
             btnAddService     = MakeButton("Add",            x + 95,   y);
-            btnUpdateService  = MakeButton("Update",         x + 185,  y);  // FIX: was missing
+            btnUpdateService  = MakeButton("Update",         x + 185,  y);  
             btnDeleteService  = MakeButton("Delete",         x + 280,  y);
 
             btnLoadServices.Click  += (_, _) => LoadServices();
             btnAddService.Click    += BtnAddService_Click;
-            btnUpdateService.Click += BtnUpdateService_Click;   // FIX
+            btnUpdateService.Click += BtnUpdateService_Click;  
             btnDeleteService.Click += BtnDeleteService_Click;
 
             Controls.AddRange(new Control[] { btnLoadServices, btnAddService, btnUpdateService, btnDeleteService });
@@ -114,7 +105,6 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(dgvStaff);
             y += 190;
 
-            // Input row 1
             x = 20;
             Controls.Add(MakeLabel("First:", x, y));
             txtStaffFirst = new TextBox { Left = x + 45, Top = y, Width = 120 };
@@ -125,7 +115,6 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(txtStaffLast);
 
             Controls.Add(MakeLabel("Role:", x + 345, y));
-            // FIX: Hardcoded roles — no longer depends on DB data
             cmbStaffRole = new ComboBox
             {
                 Left = x + 385, Top = y, Width = 120,
@@ -147,15 +136,14 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(txtStaffSalary);
             y += 35;
 
-            // Staff buttons
             btnLoadStaff  = MakeButton("Refresh",  x,        y);
             btnAddStaff   = MakeButton("Add",      x + 95,   y);
-            btnUpdateStaff = MakeButton("Update",  x + 185,  y);   // FIX: was missing
+            btnUpdateStaff = MakeButton("Update",  x + 185,  y);  
             btnDeleteStaff = MakeButton("Delete",  x + 280,  y);
 
             btnLoadStaff.Click   += (_, _) => LoadStaff();
             btnAddStaff.Click    += BtnAddStaff_Click;
-            btnUpdateStaff.Click += BtnUpdateStaff_Click;           // FIX
+            btnUpdateStaff.Click += BtnUpdateStaff_Click;           /
             btnDeleteStaff.Click += BtnDeleteStaff_Click;
 
             Controls.AddRange(new Control[] { btnLoadStaff, btnAddStaff, btnUpdateStaff, btnDeleteStaff });
@@ -232,20 +220,17 @@ namespace HotelManagementSystem.WinForms.Forms
 
             btnLoadAssignments   = MakeButton("Refresh", x,       y);
             btnAddAssignment     = MakeButton("Add",     x + 95,  y);
-            btnUpdateAssignment  = MakeButton("Update",  x + 185, y);   // FIX: was missing
+            btnUpdateAssignment  = MakeButton("Update",  x + 185, y);   
             btnDeleteAssignment  = MakeButton("Delete",  x + 280, y);
 
             btnLoadAssignments.Click  += (_, _) => LoadAssignments();
             btnAddAssignment.Click    += BtnAddAssignment_Click;
-            btnUpdateAssignment.Click += BtnUpdateAssignment_Click;      // FIX
+            btnUpdateAssignment.Click += BtnUpdateAssignment_Click;    
             btnDeleteAssignment.Click += BtnDeleteAssignment_Click;
 
             Controls.AddRange(new Control[] { btnLoadAssignments, btnAddAssignment, btnUpdateAssignment, btnDeleteAssignment });
         }
 
-        // ══════════════════════════════════════════════════════════
-        //  LOAD DATA
-        // ══════════════════════════════════════════════════════════
         private void LoadAllGrids()
         {
             LoadServices();
@@ -310,7 +295,6 @@ namespace HotelManagementSystem.WinForms.Forms
             cmbServiceToAssign.DisplayMember = "service_type";
             cmbServiceToAssign.ValueMember   = "service_id";
 
-            // Uses combo needs its own copy (DataTable can't share across two ComboBoxes)
             var dt2 = Db.ExecuteSelect("SELECT service_id, service_type FROM dbo.SERVICE ORDER BY service_type");
             cmbUsesService.DataSource    = null;
             cmbUsesService.DataSource    = dt2;
@@ -344,9 +328,6 @@ namespace HotelManagementSystem.WinForms.Forms
             cmbUsesBooking.ValueMember   = "booking_id";
         }
 
-        // ══════════════════════════════════════════════════════════
-        //  SELECTION CHANGED — populate inputs from selected row
-        // ══════════════════════════════════════════════════════════
         private void DgvServices_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvServices.SelectedRows.Count == 0) return;
@@ -386,7 +367,6 @@ namespace HotelManagementSystem.WinForms.Forms
             selectedUsesServiceId = Convert.ToInt32(row.Cells["service_id"].Value);
             selectedUseDate       = Convert.ToDateTime(row.Cells["use_date"].Value);
 
-            // Populate comboboxes to match selected row
             SetComboValue(cmbUsesBooking,  selectedUsesBookingId);
             SetComboValue(cmbUsesService,  selectedUsesServiceId);
             dtpUseDate.Value       = selectedUseDate.Value;
@@ -414,15 +394,12 @@ namespace HotelManagementSystem.WinForms.Forms
             if (st >= 0) cmbStatus.SelectedIndex = st;
         }
 
-        // ══════════════════════════════════════════════════════════
         //  SERVICE CRUD
-        // ══════════════════════════════════════════════════════════
         private void BtnAddService_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtServiceType.Text))
             { MessageBox.Show("Enter service type.", "Validation"); return; }
 
-            // FIX: price validation (> 0 required by DB constraint)
             if (!decimal.TryParse(txtServicePrice.Text, out decimal price) || price <= 0)
             { MessageBox.Show("Price must be a number greater than 0.", "Validation"); return; }
 
@@ -441,7 +418,6 @@ namespace HotelManagementSystem.WinForms.Forms
             catch (Exception ex) { ShowDbError(ex); }
         }
 
-        // FIX: Update service — was completely missing
         private void BtnUpdateService_Click(object sender, EventArgs e)
         {
             if (selectedServiceId == null)
@@ -497,9 +473,7 @@ namespace HotelManagementSystem.WinForms.Forms
             selectedServiceId = null;
         }
 
-        // ══════════════════════════════════════════════════════════
         //  STAFF CRUD
-        // ══════════════════════════════════════════════════════════
         private void BtnAddStaff_Click(object sender, EventArgs e)
         {
             if (!ValidateStaffInputs(out decimal salary)) return;
@@ -527,7 +501,6 @@ namespace HotelManagementSystem.WinForms.Forms
             catch (Exception ex) { ShowDbError(ex, "National ID may already exist."); }
         }
 
-        // FIX: Update staff — was completely missing
         private void BtnUpdateStaff_Click(object sender, EventArgs e)
         {
             if (selectedStaffId == null)
@@ -612,15 +585,12 @@ namespace HotelManagementSystem.WinForms.Forms
             selectedStaffId = null;
         }
 
-        // ══════════════════════════════════════════════════════════
-        //  USES CRUD  (FIX: was entirely missing from original)
-        // ══════════════════════════════════════════════════════════
+        //  USES CRUD  
         private void BtnAddUse_Click(object sender, EventArgs e)
         {
             if (cmbUsesBooking.SelectedValue == null || cmbUsesService.SelectedValue == null)
             { MessageBox.Show("Select booking and service.", "Validation"); return; }
 
-            // FIX: quantity validation (> 0 required by DB constraint)
             if (!int.TryParse(txtUseQuantity.Text, out int qty) || qty <= 0)
             { MessageBox.Show("Quantity must be an integer greater than 0.", "Validation"); return; }
 
@@ -694,12 +664,9 @@ namespace HotelManagementSystem.WinForms.Forms
             txtUseQuantity.Clear();
         }
 
-        // ══════════════════════════════════════════════════════════
         //  PROVIDES CRUD
-        // ══════════════════════════════════════════════════════════
         private void BtnAddAssignment_Click(object sender, EventArgs e)
         {
-            // FIX: validation — no longer silently defaults
             if (cmbStaffToAssign.SelectedValue == null)
             { MessageBox.Show("Select a staff member.", "Validation"); return; }
             if (cmbServiceToAssign.SelectedValue == null)
@@ -726,7 +693,6 @@ namespace HotelManagementSystem.WinForms.Forms
             catch (Exception ex) { ShowDbError(ex, "This staff-service combination may already be assigned today."); }
         }
 
-        // FIX: Update assignment — was completely missing
         private void BtnUpdateAssignment_Click(object sender, EventArgs e)
         {
             if (selectedAssignmentStaffId == null || selectedAssignmentServiceId == null || selectedAssignmentDate == null)
@@ -781,13 +747,9 @@ namespace HotelManagementSystem.WinForms.Forms
             selectedAssignmentDate      = null;
         }
 
-        // ══════════════════════════════════════════════════════════
         //  NAVIGATION — FIX: show main menu, don't just close
-        // ══════════════════════════════════════════════════════════
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            // Show the main menu again before closing this form.
-            // This works whether MainMenuForm hid itself or opened this as a child.
             foreach (Form f in Application.OpenForms)
             {
                 if (f is MainMenuForm)
@@ -799,9 +761,8 @@ namespace HotelManagementSystem.WinForms.Forms
             Close();
         }
 
-        // ══════════════════════════════════════════════════════════
+
         //  HELPERS
-        // ══════════════════════════════════════════════════════════
 
         /// <summary>Shows a friendly error message for DB failures.</summary>
         private static void ShowDbError(Exception ex, string hint = "")
