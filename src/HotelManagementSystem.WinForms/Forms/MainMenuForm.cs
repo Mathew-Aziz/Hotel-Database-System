@@ -11,12 +11,11 @@ public class MainMenuForm : Form
         Width = 800;
         Height = 500;
 
-        // Use consistent button dimensions (Width = 200, Height = 32)
         int btnWidth = 200;
         int btnHeight = 32;
         int startLeft = 50;
         int startTop = 50;
-        int spacing = 60; // vertical spacing between buttons
+        int spacing = 60;
 
         var btnGuests = new Button 
         { 
@@ -54,10 +53,27 @@ public class MainMenuForm : Form
             Height = btnHeight 
         };
 
-        btnGuests.Click += (_, _) => { new GuestsForm().Show(); };
-        btnRooms.Click += (_, _) => { new RoomsForm().Show(); };
-        btnBookings.Click += (_, _) => { new BookingsForm().Show(); };
-        btnServicesStaff.Click += (_, _) => { new ServicesStaffForm().Show(); };
+        // CHANGED: Hide main menu, open child as dialog, then show main menu again
+        btnGuests.Click += (_, _) => { 
+            this.Hide();
+            new GuestsForm().ShowDialog();
+            this.Show();
+        };
+        btnRooms.Click += (_, _) => { 
+            this.Hide();
+            new RoomsForm().ShowDialog();
+            this.Show();
+        };
+        btnBookings.Click += (_, _) => { 
+            this.Hide();
+            new BookingsForm().ShowDialog();
+            this.Show();
+        };
+        btnServicesStaff.Click += (_, _) => { 
+            this.Hide();
+            new ServicesStaffForm().ShowDialog();
+            this.Show();
+        };
 
         Controls.Add(btnGuests);
         Controls.Add(btnRooms);
