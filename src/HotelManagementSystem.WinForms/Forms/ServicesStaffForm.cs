@@ -50,6 +50,7 @@ namespace HotelManagementSystem.WinForms.Forms
             Height = 1080;
             StartPosition = FormStartPosition.CenterScreen;
             AutoScroll = true;
+
             BuildUI();
             LoadAllCombos();
             LoadAllGrids();
@@ -143,7 +144,7 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(txtStaffNatId);
 
             Controls.Add(MakeLabel("Salary:", x + 875, y));
-            txtStaffSalary = new TextBox { Left = x + 920, Top = y, Width = 100 };
+            txtStaffSalary = new TextBox { Left = x + 935, Top = y, Width = 100 };
             Controls.Add(txtStaffSalary);
             y += 35;
 
@@ -183,7 +184,7 @@ namespace HotelManagementSystem.WinForms.Forms
             Controls.Add(dtpUseDate);
 
             Controls.Add(MakeLabel("Qty:", x + 735, y));
-            txtUseQuantity = new TextBox { Left = x + 765, Top = y, Width = 70 };
+            txtUseQuantity = new TextBox { Left = x + 775, Top = y, Width = 70 };
             Controls.Add(txtUseQuantity);
             y += 35;
 
@@ -248,10 +249,10 @@ namespace HotelManagementSystem.WinForms.Forms
         // ══════════════════════════════════════════════════════════
         private void LoadAllGrids()
         {
-            LoadServices();
-            LoadStaff();
-            LoadUses();
-            LoadAssignments();
+                LoadServices();
+                LoadStaff();
+                LoadUses();
+                LoadAssignments();
         }
 
         private void LoadAllCombos()
