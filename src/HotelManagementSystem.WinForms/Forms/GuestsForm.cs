@@ -304,7 +304,7 @@ public class GuestsForm : Form
         // 
         // btnUpdate
         // 
-        btnUpdate.Location = new Point(401, 125);
+        btnUpdate.Location = new Point(441, 125);
         btnUpdate.Name = "btnUpdate";
         btnUpdate.Size = new Size(169, 30);
         btnUpdate.TabIndex = 2;
@@ -314,7 +314,7 @@ public class GuestsForm : Form
         // 
         // btnDelete
         // 
-        btnDelete.Location = new Point(421, 432);
+        btnDelete.Location = new Point(461, 432);
         btnDelete.Name = "btnDelete";
         btnDelete.Size = new Size(149, 30);
         btnDelete.TabIndex = 3;
@@ -338,7 +338,7 @@ public class GuestsForm : Form
         dgvGuests.Location = new Point(14, 161);
         dgvGuests.Name = "dgvGuests";
         dgvGuests.RowHeadersWidth = 53;
-        dgvGuests.Size = new Size(556, 265);
+        dgvGuests.Size = new Size(599, 265);
         dgvGuests.TabIndex = 5;
         dgvGuests.SelectionChanged += DgvGuests_SelectionChanged;
         // 
@@ -354,13 +354,13 @@ public class GuestsForm : Form
         panel1.Controls.Add(txtFirstName);
         panel1.Location = new Point(14, 48);
         panel1.Name = "panel1";
-        panel1.Size = new Size(556, 71);
+        panel1.Size = new Size(599, 71);
         panel1.TabIndex = 8;
         // 
         // label4
         // 
         label4.AutoSize = true;
-        label4.Location = new Point(468, 10);
+        label4.Location = new Point(508, 10);
         label4.Name = "label4";
         label4.Size = new Size(88, 21);
         label4.TabIndex = 8;
@@ -369,7 +369,7 @@ public class GuestsForm : Form
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(308, 10);
+        label3.Location = new Point(349, 10);
         label3.Name = "label3";
         label3.Size = new Size(116, 21);
         label3.TabIndex = 8;
@@ -378,7 +378,7 @@ public class GuestsForm : Form
         // label2
         // 
         label2.AutoSize = true;
-        label2.Location = new Point(152, 10);
+        label2.Location = new Point(181, 10);
         label2.Name = "label2";
         label2.Size = new Size(107, 21);
         label2.TabIndex = 8;
@@ -395,21 +395,21 @@ public class GuestsForm : Form
         // 
         // txtLastName
         // 
-        txtLastName.Location = new Point(135, 34);
+        txtLastName.Location = new Point(164, 34);
         txtLastName.Name = "txtLastName";
         txtLastName.Size = new Size(133, 29);
         txtLastName.TabIndex = 7;
         // 
         // txtPhone
         // 
-        txtPhone.Location = new Point(298, 34);
+        txtPhone.Location = new Point(339, 34);
         txtPhone.Name = "txtPhone";
         txtPhone.Size = new Size(136, 29);
         txtPhone.TabIndex = 7;
         // 
         // txtNationalId
         // 
-        txtNationalId.Location = new Point(468, 34);
+        txtNationalId.Location = new Point(508, 34);
         txtNationalId.Name = "txtNationalId";
         txtNationalId.Size = new Size(88, 29);
         txtNationalId.TabIndex = 7;
@@ -423,7 +423,7 @@ public class GuestsForm : Form
         // 
         // GuestsForm
         // 
-        ClientSize = new Size(593, 475);
+        ClientSize = new Size(625, 475);
         Controls.Add(panel1);
         Controls.Add(dgvGuests);
         Controls.Add(btnLoad);
