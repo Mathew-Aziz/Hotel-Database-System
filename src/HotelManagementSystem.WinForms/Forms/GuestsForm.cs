@@ -40,6 +40,13 @@ public class GuestsForm : Form
             // Hide the guest_id column
             if (dgvGuests.Columns["guest_id"] != null)
                 dgvGuests.Columns["guest_id"].Visible = false;
+
+            // Move National ID Column to the end
+            if (dgvGuests.Columns["guest_national_id"] != null)
+            {
+                int lastIndex = dgvGuests.Columns.Count - 1;
+                dgvGuests.Columns["guest_national_id"].DisplayIndex = lastIndex;
+            }
         }
         catch (Exception ex)
         {
