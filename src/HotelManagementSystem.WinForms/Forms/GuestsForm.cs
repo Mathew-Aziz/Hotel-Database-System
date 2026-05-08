@@ -16,12 +16,6 @@ public class GuestsForm : Form
         if (!DesignMode)
             LoadGuests();
     }
-
-    private void GuestsForm_Load(object sender, EventArgs e)
-    {
-        // Remove this or keep empty - we're loading in constructor
-    }
-
     private void BtnLoad_Click(object sender, EventArgs e)
     {
         if (!DesignMode)
@@ -31,11 +25,10 @@ public class GuestsForm : Form
 
     private void LoadGuests()
     {
-        if (DesignMode) return;
+        if (DesignMode) 
+            return;
 
-        // FIXED: Changed from 'Guests' to 'GUEST'
         string query = "SELECT * FROM GUEST ORDER BY guest_id";
-
         try
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -72,7 +65,6 @@ public class GuestsForm : Form
             return;
 
         DataGridViewRow row = dgvGuests.CurrentRow;
-        // FIXED: Updated column names to match database
         txtFirstName.Text = row.Cells["guest_first_name"].Value?.ToString() ?? "";
         txtLastName.Text = row.Cells["guest_last_name"].Value?.ToString() ?? "";
         txtNationalId.Text = row.Cells["guest_national_id"].Value?.ToString() ?? "";
@@ -117,7 +109,6 @@ public class GuestsForm : Form
         if (!ValidateInputs())
             return;
 
-        // FIXED: Updated table name and column names
         string query = @"INSERT INTO GUEST (guest_first_name, guest_last_name, guest_phone, guest_national_id) 
                      VALUES (@firstName, @lastName, @phone, @nationalId)";
 
@@ -174,7 +165,6 @@ public class GuestsForm : Form
         if (!ValidateInputs())
             return;
 
-        // FIXED: Updated table name and column names
         string query = @"UPDATE GUEST 
                      SET guest_first_name = @first_name, 
                          guest_last_name = @last_name, 
@@ -245,9 +235,7 @@ public class GuestsForm : Form
         if (result != DialogResult.Yes)
             return;
 
-        // FIXED: Changed from 'Guests' to 'GUEST'
         string query = "DELETE FROM GUEST WHERE guest_id = @guest_id";
-
         try
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -464,7 +452,7 @@ public class GuestsForm : Form
         Controls.Add(btnBack);
         Name = "GuestsForm";
         Text = "Guests Management";
-        Load += GuestsForm_Load;
+        //Load += GuestsForm_Load;
         ((System.ComponentModel.ISupportInitialize)dgvGuests).EndInit();
         panel1.ResumeLayout(false);
         panel1.PerformLayout();
