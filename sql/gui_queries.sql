@@ -145,7 +145,7 @@ VALUES (@booking_id, @service_id, @use_date, @quantity);
 UPDATE dbo.Uses
 SET quantity = @quantity
 WHERE booking_id = @booking_id AND service_id = @service_id AND use_date = @use_date;
-
+DELETE FROM dbo.Uses
 WHERE booking_id = @booking_id AND service_id = @service_id AND use_date = @use_date;
 
 SELECT
