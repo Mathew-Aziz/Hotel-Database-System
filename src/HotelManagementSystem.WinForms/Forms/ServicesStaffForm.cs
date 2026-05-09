@@ -144,7 +144,7 @@ namespace HotelManagementSystem.WinForms.Forms
 
             btnLoadStaff.Click   += (_, _) => LoadStaff();
             btnAddStaff.Click    += BtnAddStaff_Click;
-            btnUpdateStaff.Click += BtnUpdateStaff_Click;           /
+            btnUpdateStaff.Click += BtnUpdateStaff_Click;           
             btnDeleteStaff.Click += BtnDeleteStaff_Click;
 
             Controls.AddRange(new Control[] { btnLoadStaff, btnAddStaff, btnUpdateStaff, btnDeleteStaff });
